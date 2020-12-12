@@ -29,10 +29,10 @@ public class Coordinate {
 		Y = this.getY();
 		X = this.getX();
 		if (X == 3 && Y == 0) {
-			return new Cave(2, this, 1000);
+			return new Cave(2, this, 0);
 		}
 		if (X == 3 && Y == 8) {
-			return new Cave(1, this, -1000);
+			return new Cave(1, this, 0);
 		}
 		if (((X == 2) || (X == 4)) && Y == 0)
 			return new Trap(2, this, 0);

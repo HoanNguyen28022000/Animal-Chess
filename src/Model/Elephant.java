@@ -40,8 +40,7 @@ public class Elephant extends Animal {
         if (p instanceof Water) {
             return false;
         }
-
-        if (p.color == this.color && p instanceof Cave)
+        if (p.color == this.color && p.getCoordinate().getTypeOfLand() instanceof Cave)
             return false;
 
         return true;

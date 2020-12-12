@@ -124,10 +124,16 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 				listSwap.add(new Coordinate(robotAnimals.get(i).getCoordinate().getX(), robotAnimals.get(i).getCoordinate().getY()));
 				
 				for (Coordinate co2: possibleMoves) {
-					if(co2.getTypeOfLand() instanceof Cave){
-						return evaluateBoard(board);
-					}
 					listSwap.add(new Coordinate(co2.getX(), co2.getY()));
+					if(co2.getTypeOfLand() instanceof Cave){
+						swapRobot(listSwap.get(0), listSwap.get(1));
+						double value = evaluateBoard(board);
+						swapRobot(listSwap.get(1), listSwap.get(0));
+						listSwap.remove(1);
+						listSwap.remove(0);
+						possibleMoves= null;
+						return value;
+					}
 					
 					if (board[co2.getX()][co2.getY()] instanceof Animal) {
 						Animal animalTarget= (Animal)board[co2.getX()][co2.getY()];
@@ -139,9 +145,16 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 //							System.out.println("best value "+String.valueOf(depth)+" : " + robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
 						alpha=Math.max(bestValue, alpha);
-						if (beta<= alpha) return bestValue;
+
 						playerAnimals.add(animalTarget);
 						swapRobot(listSwap.get(1), listSwap.get(0), animalTarget);
+						if (beta<= alpha) {
+							listSwap.remove(1);
+							listSwap.remove(0);
+							possibleMoves= null;
+							return bestValue;
+						}
+
 					}
 					
 					else {
@@ -152,8 +165,14 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 //							System.out.println("best value "+String.valueOf(depth)+" : "+ robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
 						alpha=Math.max(bestValue, alpha);
-						if (beta<= alpha) return bestValue;
+
 						swapRobot(listSwap.get(1), listSwap.get(0));
+						if (beta<= alpha) {
+							listSwap.remove(1);
+							listSwap.remove(0);
+							possibleMoves= null;
+							return bestValue;
+						}
 					}
 					listSwap.remove(1);
 				}
@@ -194,9 +213,15 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 //							System.out.println("best value "+String.valueOf(depth)+" : " + robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
 						beta=Math.min(bestValue, beta);
-						if (beta <= alpha) return bestValue;
-						robotAnimals.add(animalTarget);
 						swapRobot(listSwap.get(1), listSwap.get(0), animalTarget);
+						robotAnimals.add(animalTarget);
+						if (beta<= alpha) {
+							listSwap.remove(1);
+							listSwap.remove(0);
+							possibleMoves= null;
+							return bestValue;
+						}
+
 					}
 					
 					else {
@@ -207,8 +232,14 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 //							System.out.println("best value "+String.valueOf(depth)+" : " + robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
 						beta=Math.min(bestValue, beta);
-						if (beta <= alpha) return bestValue;
 						swapRobot(listSwap.get(1), listSwap.get(0));
+						if (beta<= alpha) {
+							listSwap.remove(1);
+							listSwap.remove(0);
+							possibleMoves= null;
+							return bestValue;
+						}
+
 					}
 					listSwap.remove(1);
 				}
