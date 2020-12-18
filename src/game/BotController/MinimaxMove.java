@@ -10,7 +10,7 @@ import Model.Coordinate;
 import Model.Piece;
 
 public class MinimaxMove {
-	public static int count=0;
+	public static double count=0;
 	
 	ArrayList<Animal> playerAnimals;
 	ArrayList<Animal> robotAnimals;
@@ -54,6 +54,7 @@ public class MinimaxMove {
 				
 				if (board[co2.getX()][co2.getY()] instanceof Animal) {
 					Animal animalTarget= (Animal)board[co2.getX()][co2.getY()];
+					int indexAnimalTarget = playerAnimals.indexOf(animalTarget);
 					swapRobot(listSwap.get(0), listSwap.get(1));
 					playerAnimals.remove(animalTarget);
 					double value = minimax(depth - 1, !isFindMax);
@@ -74,7 +75,7 @@ public class MinimaxMove {
 //						System.out.println("bestMove :"+bestMove.getX()+"-"+bestMove.getY());
 						bestValue = value;
 					}
-					playerAnimals.add(animalTarget);
+					playerAnimals.add(indexAnimalTarget, animalTarget);
 					swapRobot(listSwap.get(1), listSwap.get(0), animalTarget);
 				}
 				
@@ -137,6 +138,7 @@ public double minimax(int depth, boolean isFindMax) {
 					
 					if (board[co2.getX()][co2.getY()] instanceof Animal) {
 						Animal animalTarget= (Animal)board[co2.getX()][co2.getY()];
+						int indexAnimalTarget = playerAnimals.indexOf(animalTarget);
 						swapRobot(listSwap.get(0), listSwap.get(1));
 						playerAnimals.remove(animalTarget);
 						double value = minimax(depth - 1, !isFindMax);
@@ -144,7 +146,7 @@ public double minimax(int depth, boolean isFindMax) {
 							bestValue = value;
 //							System.out.println("best value "+String.valueOf(depth)+" : " + robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
-						playerAnimals.add(animalTarget);
+						playerAnimals.add(indexAnimalTarget, animalTarget);
 						swapRobot(listSwap.get(1), listSwap.get(0), animalTarget);
 					}
 					
@@ -188,6 +190,7 @@ public double minimax(int depth, boolean isFindMax) {
 					
 					if (board[co2.getX()][co2.getY()] instanceof Animal) {
 						Animal animalTarget= (Animal)board[co2.getX()][co2.getY()];
+						int indexOfAnimalTarget = robotAnimals.indexOf(animalTarget);
 						swapRobot(listSwap.get(0), listSwap.get(1));
 						robotAnimals.remove(animalTarget);
 						double value = minimax(depth - 1, !isFindMax);
@@ -195,7 +198,7 @@ public double minimax(int depth, boolean isFindMax) {
 							bestValue = value;
 //							System.out.println("best value "+String.valueOf(depth)+" : " + robotAnimals.get(i).getClass()+" "+ bestValue);
 						}
-						robotAnimals.add(animalTarget);
+						robotAnimals.add(indexOfAnimalTarget, animalTarget);
 						swapRobot(listSwap.get(1), listSwap.get(0), animalTarget);
 					}
 					
