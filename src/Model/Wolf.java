@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Wolf extends Animal {
     public Wolf(int color, Coordinate coordinate,int value) {
-        super(color, 4, true, "Wolf", coordinate, "src/image/wolf.png",value);
+        super(color, 4, true, "Wolf", coordinate, "src/image/soi" + color + ".jpg",value);
         this.positionValue = new double[][] {
                 {8,8,8,0,12,12,8},
                 {8,8,8,8,13,12,8},

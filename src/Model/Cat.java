@@ -4,9 +4,8 @@ import java.util.List;
 
 public class Cat extends Animal {
 
-
     public Cat(int color, Coordinate coordinate, int value) {
-        super(color, 2, true, "Cat", coordinate, "src/image/cat.png", value);
+        super(color, 2, true, "Cat", coordinate, "src/image/meo" + color + ".jpg", value);
         this.positionValue = new double[][]{
                 {8,8,8,0,8,8,8},
                 {8,8,8,8,8,10,13},

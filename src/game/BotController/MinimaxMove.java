@@ -25,7 +25,7 @@ public class MinimaxMove {
 	
 	public ArrayList<Coordinate> minimaxRoot(int depth, boolean isFindMax) {
 		ArrayList<Coordinate> bestBotMove= new ArrayList<Coordinate>();
-		double bestValue= -9999;
+		double bestValue= -999999999;
 		Random rand= new Random();
 		Animal random= robotAnimals.get(rand.nextInt(robotAnimals.size()-1));
 		Coordinate bestAnimal = new Coordinate(random.getCoordinate().getX(), random.getCoordinate().getY());
@@ -118,7 +118,7 @@ public double minimax(int depth, boolean isFindMax) {
 			return evaluateBoard(board);
 		}
 		if (isFindMax) {
-			double bestValue= -9999;
+			double bestValue= -999999999;
 			for (int i=0 ; i< robotAnimals.size(); i++) {
 				List<Coordinate> listSwap = new ArrayList<>();
 				List<Coordinate> possibleMoves= robotAnimals.get(i).getPossibleMove(board);
@@ -128,7 +128,7 @@ public double minimax(int depth, boolean isFindMax) {
 					listSwap.add(new Coordinate(co2.getX(), co2.getY()));
 					if(co2.getTypeOfLand() instanceof Cave){
 						swapRobot(listSwap.get(0), listSwap.get(1));
-						double value = evaluateBoard(board);
+						double value = evaluateBoard(board) * depth;
 						swapRobot(listSwap.get(1), listSwap.get(0));
 						listSwap.remove(1);
 						listSwap.remove(0);
@@ -167,7 +167,7 @@ public double minimax(int depth, boolean isFindMax) {
 			return bestValue;
 		}
 		else {
-			double bestValue= 9999;
+			double bestValue= 999999999;
 			for (int i=0 ; i< playerAnimals.size(); i++) {
 				
 				List<Coordinate> listSwap = new ArrayList<>();
@@ -180,7 +180,7 @@ public double minimax(int depth, boolean isFindMax) {
 
 					if(co2.getTypeOfLand() instanceof Cave){
 						swapRobot(listSwap.get(0), listSwap.get(1));
-						double value = evaluateBoard(board);
+						double value = evaluateBoard(board) * depth;
 						swapRobot(listSwap.get(1), listSwap.get(0));
 						listSwap.remove(1);
 						listSwap.remove(0);

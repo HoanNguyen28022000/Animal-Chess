@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Mouse extends Animal {
     public Mouse(int color, Coordinate coordinate,int value) {
-        super(color, 1, true, "Mouse", coordinate, "src/image/mouse.jpg",value);
+        super(color, 1, true, "Mouse", coordinate, "src/image/chuot" + color + ".jpg",value);
         this.positionValue = new double[][]{
                 {8,8,8,0,8,8,8},
                 {9,9,9,9,8,8,8},

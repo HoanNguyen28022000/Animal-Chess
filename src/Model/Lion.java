@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Lion extends Animal {
     public Lion(int color, Coordinate coordinate, int value) {
-        super(color, 7, true, "Lion", coordinate, "src/image/lion.png",value);
+        super(color, 7, true, "Lion", coordinate, "src/image/lion" + color + ".jpg",value);
         this.positionValue = new double[][]{
                 {10,12,12,0,12,12,10},
                 {12,14,12,12,12,12,12},
