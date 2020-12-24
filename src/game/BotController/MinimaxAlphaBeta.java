@@ -50,7 +50,7 @@ public class MinimaxAlphaBeta {
 
 				listSwap.add(new Coordinate(co2.getX(), co2.getY()));
 //				System.out.println("add chose possible move:"+ listSwap.get(1).getX()+"-"+ listSwap.get(1).getY());
-				double r = rand.nextInt(1);
+
 				
 				if (board[co2.getX()][co2.getY()] instanceof Animal) {
 					Animal animalTarget= (Animal)board[co2.getX()][co2.getY()];
@@ -58,6 +58,7 @@ public class MinimaxAlphaBeta {
 					swapRobot(listSwap.get(0), listSwap.get(1));
 					playerAnimals.remove(animalTarget);
 					double value = minimax(depth - 1, -9999999, 9999999, !isFindMax);
+					double r = rand.nextInt(2);
 					if (value > bestValue) {
 						bestAnimal.setX(listSwap.get(0).getX()); 
 						bestAnimal.setY(listSwap.get(0).getY());
@@ -82,6 +83,8 @@ public class MinimaxAlphaBeta {
 				else {
 					swapRobot(listSwap.get(0), listSwap.get(1));
 					double value = minimax(depth - 1,-9999999, 9999999, !isFindMax);
+					double r = rand.nextInt(2);
+					System.out.println(r);
 					if (value > bestValue) {
 						bestAnimal.setX(listSwap.get(0).getX()); 
 						bestAnimal.setY(listSwap.get(0).getY());

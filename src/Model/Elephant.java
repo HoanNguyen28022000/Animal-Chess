@@ -9,7 +9,7 @@ public class Elephant extends Animal {
         this.positionValue = new double[][]{
                 {11,11,11,0,11,11,11},
                 {11,11,11,11,11,11,11},
-                {12,14,14,14,14,15,10},
+                {12,14,14,14,14,14,10},
                 {12,0,0,12,0,0,12},
                 {14,0,0,14,0,0,14},
                 {16,0,0,16,0,0,16},
@@ -43,6 +43,9 @@ public class Elephant extends Animal {
         if (p.color == this.color && p.getCoordinate().getTypeOfLand() instanceof Cave)
             return false;
 
+        if (move[p.getCoordinate().getX()][p.getCoordinate().getY()] == 3){
+            return false;
+        }
         return true;
     }
 }

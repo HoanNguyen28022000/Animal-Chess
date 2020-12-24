@@ -8,6 +8,8 @@ public abstract class Animal extends Piece {
 	
 	protected double[][] positionValue;
 
+	public int[][] move = new int[7][9];
+
 	public double getPoValue() {
 		return this.positionValue[this.getCoordinate().getY()][this.getCoordinate().getX()];
 	}
@@ -24,6 +26,11 @@ public abstract class Animal extends Piece {
 
 	public Animal(int color, int point, boolean isAnimal, String name, Coordinate coordinate, String image, int value) {
 		super(color, point, isAnimal, name, coordinate, image, value);
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 9; j++){
+				move[i][j] = 0;
+			}
+		}
 	}
 
 	public boolean checkTrap(Piece p){
@@ -35,6 +42,14 @@ public abstract class Animal extends Piece {
 			}
 		}
 		return false;
+	}
+
+	public void resetMove(){
+		for(int i = 0; i < 7; i++){
+			for(int j = 0; j < 9; j++){
+				move[i][j] = 0;
+			}
+		}
 	}
 
 	public boolean checkPiece(Piece p) {

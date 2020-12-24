@@ -192,9 +192,10 @@ public class GameController implements Initializable {
 	
 	public void minimaxBotMove() {
 		
-		MinimaxMove minimaxRoot= new MinimaxMove(board, playerAnimals, robotAnimals);
-//		MinimaxAlphaBeta minimaxRoot= new MinimaxAlphaBeta(board, playerAnimals, robotAnimals);
+//		MinimaxMove minimaxRoot= new MinimaxMove(board, playerAnimals, robotAnimals);
+		MinimaxAlphaBeta minimaxRoot= new MinimaxAlphaBeta(board, playerAnimals, robotAnimals);
 		ArrayList<Coordinate> minimaxBotMove = minimaxRoot.minimaxRoot(5, true);
+		Animal a = (Animal) board[minimaxBotMove.get(0).getX()][minimaxBotMove.get(0).getY()];
 		
 		if(board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()] instanceof Animal) {
 			playerAnimals.remove(board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()]);
@@ -345,7 +346,7 @@ public class GameController implements Initializable {
 		board[6][0] = new Tiger(2, new Coordinate(6, 0),800);
 
 		board[0][1] = new Glass(new Coordinate(0, 1));
-		board[1][1] = new Dog(2, new Coordinate(1, 1), 400);
+		board[1][1] = new Dog(2, new Coordinate(1, 1), 300);
 		board[2][1] = new Glass(new Coordinate(2, 1));
 		board[3][1] = new Trap(2, new Coordinate(3, 1),0);
 		board[4][1] = new Glass(new Coordinate(4, 1));
@@ -356,7 +357,7 @@ public class GameController implements Initializable {
 		board[1][2] = new Glass(new Coordinate(1, 2));
 		board[2][2] = new Cheetah(2, new Coordinate(2, 2),500);
 		board[3][2] = new Glass(new Coordinate(3, 2));
-		board[4][2] = new Wolf(2, new Coordinate(4, 2),300);
+		board[4][2] = new Wolf(2, new Coordinate(4, 2),400);
 		board[5][2] = new Glass(new Coordinate(5, 2));
 		board[6][2] = new Elephant(2, new Coordinate(6, 2),1000);
 
@@ -386,7 +387,7 @@ public class GameController implements Initializable {
 
 		board[0][6] = new Elephant(1, new Coordinate(0, 6),-1000);
 		board[1][6] = new Glass(new Coordinate(1, 6));
-		board[2][6] = new Wolf(1, new Coordinate(2, 6),-300);
+		board[2][6] = new Wolf(1, new Coordinate(2, 6),-400);
 		board[3][6] = new Glass(new Coordinate(3, 6));
 		board[4][6] = new Cheetah(1, new Coordinate(4, 6),-500);
 		board[5][6] = new Glass(new Coordinate(5, 6));
@@ -397,7 +398,7 @@ public class GameController implements Initializable {
 		board[2][7] = new Glass(new Coordinate(2, 7));
 		board[3][7] = new Trap(1, new Coordinate(3, 7),0);
 		board[4][7] = new Glass(new Coordinate(4, 7));
-		board[5][7] = new Dog(1, new Coordinate(5, 7),-400);
+		board[5][7] = new Dog(1, new Coordinate(5, 7),-300);
 		board[6][7] = new Glass(new Coordinate(6, 7));
 
 		board[0][8] = new Tiger(1, new Coordinate(0, 8),-800);

@@ -42,6 +42,9 @@ public class Mouse extends Animal {
 
         if (p.color == this.color && p.getCoordinate().getTypeOfLand() instanceof Cave)
             return false;
+        if (move[p.getCoordinate().getX()][p.getCoordinate().getY()] == 3){
+            return false;
+        }
 
         return true;
     }
