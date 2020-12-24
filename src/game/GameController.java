@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -40,6 +41,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
@@ -172,6 +174,9 @@ public class GameController implements Initializable {
 			if (possibleMove.getX() == swapList.get(1).getX() && possibleMove.getY() == swapList.get(1).getY()) {
 				if (board[swapList.get(1).getX()][swapList.get(1).getY()] instanceof Animal) {
 					robotAnimals.remove(board[swapList.get(1).getX()][swapList.get(1).getY()]);
+				} else if (board[swapList.get(1).getX()][swapList.get(1).getY()] instanceof Cave) {
+					endgame(1);
+					return;
 				}
 				swap(swapList.get(0), swapList.get(1)); // attack animal
 
@@ -211,7 +216,7 @@ public class GameController implements Initializable {
 		System.out.println("ro bot da di chuyen "+board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()].getClass() + " tu :"+minimaxBotMove.get(0).getX() + "-" + 
 				minimaxBotMove.get(0).getY()+"\tden"+minimaxBotMove.get(1).getX()+"-"+minimaxBotMove.get(1).getY());
 		if(minimaxBotMove.get(1).getTypeOfLand() instanceof Cave){
-			System.out.println("Máy thắng!!!!");
+			endgame(2);
 			return;
 		}
 		minimaxBotMove.remove(1);
@@ -455,7 +460,7 @@ public class GameController implements Initializable {
 	@FXML
 	public void surrender(ActionEvent e) {
 		Alert alert = new Alert(AlertType.WARNING);
-		alert.setContentText("G�");
+		alert.setContentText("Gï¿½");
 		alert.show();
 	}
 
@@ -505,6 +510,27 @@ public class GameController implements Initializable {
 		} else {
 			AI.setStyle("-fx-opacity: 1.0");
 			player.setStyle("-fx-opacity: 0.3");
+		}
+	}
+	
+	public void endgame(int turn) {
+		if (turn == 1) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Kết thúc");
+			alert.setHeaderText("YOU WIN !!!");
+			alert.setContentText("Bạn có muốn chơi lại ?");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if(!result.isPresent()) {
+				
+			}
+			else if(result.get() == ButtonType.OK) {
+				
+			}
+			else if(result.get() == ButtonType.CANCEL) {
+				
+			}
+			alert.showAndWait();
 		}
 	}
 }
