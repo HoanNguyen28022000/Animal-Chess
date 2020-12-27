@@ -148,3 +148,7 @@
 	-fx-scale-x: 108%;
 	-fx-scale-y: 108%;
 }
+
+#coming_soon {
+	-fx-background-image: url("/image/coming_soon.jpg");
+}

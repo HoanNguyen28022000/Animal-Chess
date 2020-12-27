@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class Controller implements Initializable {
+public class MenuController implements Initializable {
 
 	@FXML
 	private Button singlePlayer;
@@ -44,7 +44,7 @@ public class Controller implements Initializable {
 	}
 
 	@FXML
-	public void changeScene(ActionEvent e) {
+	public void toInstruction(ActionEvent e) {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Instruction.fxml"));
@@ -74,6 +74,19 @@ public class Controller implements Initializable {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Boardgame.fxml"));
 		Parent root = (Parent) loader.load();
 		GameController gameController = loader.getController();
+		Button btn = (Button) e.getSource();
+		System.out.println(btn.getText());
+		if (btn.getText().equals("Easy")) {
+			gameController.setLevel(3);		
+		} else if (btn.getText().equals("Medium")) {
+			gameController.setLevel(4);
+		} else if (btn.getText().equals("Hard")) {
+			gameController.setLevel(5);
+		} else if (btn.getText().equals("Insane")) {
+			gameController.setLevel(6);
+		} else if (btn.getText().equals("Impossible")) {
+			gameController.setLevel(7);
+		}
 		stage.setScene(new Scene(root));
 		stage.show();
 	}

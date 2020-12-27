@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Elephant extends Animal {
     public Elephant(int color, Coordinate coordinate, int value) {
         super(color, 8, true, "Elephant", coordinate, "src/image/voi" + color + ".jpg",value);

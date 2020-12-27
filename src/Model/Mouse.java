@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Mouse extends Animal {
     public Mouse(int color, Coordinate coordinate,int value) {
         super(color, 1, true, "Mouse", coordinate, "src/image/chuot" + color + ".jpg",value);

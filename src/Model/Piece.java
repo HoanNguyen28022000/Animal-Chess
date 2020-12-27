@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 public class Piece {
 //    public static final int GLASS = 10;
 //    public static final int WATER = 20;

@@ -25,8 +25,11 @@ public class InstructionController implements Initializable {
 
 	public void backFromInstruction(ActionEvent e) {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		if (stage.getTitle() == "Instruction in game") {
+			stage.close();
+		}
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("Template.fxml"));
+		loader.setLocation(getClass().getResource("Menu.fxml"));
 		Parent parent = null;
 		try {
 			parent = loader.load();

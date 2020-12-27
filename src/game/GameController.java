@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import Model.Animal;
@@ -26,8 +25,6 @@ import Model.Trap;
 import Model.Water;
 import Model.Wolf;
 import game.BotController.MinimaxAlphaBeta;
-import game.BotController.MinimaxMove;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -35,29 +32,26 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import sun.awt.geom.AreaOp;
 
 public class GameController implements Initializable {
+	
 	private int turn = 1;
+	private static int level = 5;
 
 	@FXML
 	private GridPane boardGame;
@@ -74,10 +68,10 @@ public class GameController implements Initializable {
 
 	private List<Coordinate> swapList = new ArrayList<>();
 	ArrayList<Node> listNode = new ArrayList();
-	
+
 	private ArrayList<Animal> playerAnimals = new ArrayList<Animal>();
 	private ArrayList<Animal> robotAnimals = new ArrayList<Animal>();
-	
+
 	public void getAllAnimal(Piece[][] board) {
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -97,7 +91,7 @@ public class GameController implements Initializable {
 		playerImage.setStyle("-fx-background-image: url('/image/playerImage.png');");
 		initBoard();
 		initMap();
-		
+
 		getAllAnimal(board);
 	}
 
@@ -153,8 +147,9 @@ public class GameController implements Initializable {
 								listNode.get(0).setEffect(null);
 								listNode.remove(0);
 
-								if (turn==2) minimaxBotMove();
-								turn =1;
+								if (turn == 2)
+									minimaxBotMove();
+								turn = 1;
 							}
 						}
 					}
@@ -194,36 +189,38 @@ public class GameController implements Initializable {
 		swapList.remove(0);
 		System.out.println("nuoc di khong hop le ... vui long chon lai");
 	}
-	
+
 	public void minimaxBotMove() {
-		
+
 //		MinimaxMove minimaxRoot= new MinimaxMove(board, playerAnimals, robotAnimals);
-		MinimaxAlphaBeta minimaxRoot= new MinimaxAlphaBeta(board, playerAnimals, robotAnimals);
-		ArrayList<Coordinate> minimaxBotMove = minimaxRoot.minimaxRoot(5, true);
+		MinimaxAlphaBeta minimaxRoot = new MinimaxAlphaBeta(board, playerAnimals, robotAnimals);
+		ArrayList<Coordinate> minimaxBotMove = minimaxRoot.minimaxRoot(level, true);
 		Animal a = (Animal) board[minimaxBotMove.get(0).getX()][minimaxBotMove.get(0).getY()];
-		
-		if(board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()] instanceof Animal) {
+
+		if (board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()] instanceof Animal) {
 			playerAnimals.remove(board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()]);
 		}
-		
+
 		swap(minimaxBotMove.get(0), minimaxBotMove.get(1));
-		
+
 		initPiece(minimaxBotMove.get(0));
 		initPiece(minimaxBotMove.get(1));
-		
-		System.out.println("tong so nut da duyet= "+ minimaxRoot.count);
-		
-		System.out.println("ro bot da di chuyen "+board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()].getClass() + " tu :"+minimaxBotMove.get(0).getX() + "-" + 
-				minimaxBotMove.get(0).getY()+"\tden"+minimaxBotMove.get(1).getX()+"-"+minimaxBotMove.get(1).getY());
-		if(minimaxBotMove.get(1).getTypeOfLand() instanceof Cave){
+
+		System.out.println("tong so nut da duyet= " + MinimaxAlphaBeta.count);
+
+		System.out.println(
+				"ro bot da di chuyen " + board[minimaxBotMove.get(1).getX()][minimaxBotMove.get(1).getY()].getClass()
+						+ " tu :" + minimaxBotMove.get(0).getX() + "-" + minimaxBotMove.get(0).getY() + "\tden"
+						+ minimaxBotMove.get(1).getX() + "-" + minimaxBotMove.get(1).getY());
+		if (minimaxBotMove.get(1).getTypeOfLand() instanceof Cave) {
 			endgame(2);
 			return;
 		}
 		minimaxBotMove.remove(1);
 		minimaxBotMove.remove(0);
-		
+
 	}
-	
+
 	public void swap(Coordinate co1, Coordinate co2) {
 		Piece p = board[co1.getX()][co1.getY()];
 		p.getCoordinate().setX(co2.getX());
@@ -237,7 +234,6 @@ public class GameController implements Initializable {
 		} else
 			turn = 1;
 	}
-	
 
 	public void setImage(String url, int X, int Y) {
 
@@ -279,17 +275,17 @@ public class GameController implements Initializable {
 		board[0][1] = new Glass(new Coordinate(0, 1));
 		board[1][1] = new Glass(new Coordinate(1, 1));
 		board[2][1] = new Dog(2, new Coordinate(2, 1), 400);
-		board[3][1] = new Trap(2, new Coordinate(3, 1),0);
-		board[4][1] = new Wolf(2, new Coordinate(4, 1),300);
+		board[3][1] = new Trap(2, new Coordinate(3, 1), 0);
+		board[4][1] = new Wolf(2, new Coordinate(4, 1), 300);
 		board[5][1] = new Glass(new Coordinate(5, 1));
-		board[6][1] = new Cat(2, new Coordinate(6, 1),200);
+		board[6][1] = new Cat(2, new Coordinate(6, 1), 200);
 
 		board[0][2] = new Glass(new Coordinate(0, 2));
 		board[1][2] = new Glass(new Coordinate(1, 2));
 		board[2][2] = new Glass(new Coordinate(2, 2));
 		board[3][2] = new Glass(new Coordinate(3, 2));
 		board[4][2] = new Glass(new Coordinate(4, 2));
-		board[5][2] = new Elephant(2, new Coordinate(5, 2),1000);
+		board[5][2] = new Elephant(2, new Coordinate(5, 2), 1000);
 		board[6][2] = new Glass(new Coordinate(6, 2));
 
 		board[0][3] = new Glass(new Coordinate(0, 3));
@@ -327,16 +323,16 @@ public class GameController implements Initializable {
 		board[0][7] = new Glass(new Coordinate(0, 7));
 		board[1][7] = new Glass(new Coordinate(1, 7));
 		board[2][7] = new Glass(new Coordinate(2, 7));
-		board[3][7] = new Trap(1, new Coordinate(3, 7),0);
-		board[4][7] = new Wolf(1, new Coordinate(4, 7),-300);
+		board[3][7] = new Trap(1, new Coordinate(3, 7), 0);
+		board[4][7] = new Wolf(1, new Coordinate(4, 7), -300);
 		board[5][7] = new Elephant(1, new Coordinate(5, 7), -1000);
 		board[6][7] = new Glass(new Coordinate(6, 7));
 
 		board[0][8] = new Glass(new Coordinate(0, 8));
 		board[1][8] = new Lion(2, new Coordinate(1, 8), 900);
-		board[2][8] = new Trap(1, new Coordinate(2, 8),0);
-		board[3][8] = new Cave(1, new Coordinate(3, 8),0);
-		board[4][8] = new Dog(1, new Coordinate(4, 8),-400);
+		board[2][8] = new Trap(1, new Coordinate(2, 8), 0);
+		board[3][8] = new Cave(1, new Coordinate(3, 8), 0);
+		board[4][8] = new Dog(1, new Coordinate(4, 8), -400);
 		board[5][8] = new Glass(new Coordinate(5, 8));
 		board[6][8] = new Tiger(2, new Coordinate(6, 8), 800);
 	}
@@ -348,23 +344,23 @@ public class GameController implements Initializable {
 		board[3][0] = new Cave(2, new Coordinate(3, 0), 0);
 		board[4][0] = new Trap(2, new Coordinate(4, 0), 0);
 		board[5][0] = new Glass(new Coordinate(5, 0));
-		board[6][0] = new Tiger(2, new Coordinate(6, 0),800);
+		board[6][0] = new Tiger(2, new Coordinate(6, 0), 800);
 
 		board[0][1] = new Glass(new Coordinate(0, 1));
 		board[1][1] = new Dog(2, new Coordinate(1, 1), 300);
 		board[2][1] = new Glass(new Coordinate(2, 1));
-		board[3][1] = new Trap(2, new Coordinate(3, 1),0);
+		board[3][1] = new Trap(2, new Coordinate(3, 1), 0);
 		board[4][1] = new Glass(new Coordinate(4, 1));
-		board[5][1] = new Cat(2, new Coordinate(5, 1),200);
+		board[5][1] = new Cat(2, new Coordinate(5, 1), 200);
 		board[6][1] = new Glass(new Coordinate(6, 1));
 
-		board[0][2] = new Mouse(2, new Coordinate(0, 2),500);
+		board[0][2] = new Mouse(2, new Coordinate(0, 2), 500);
 		board[1][2] = new Glass(new Coordinate(1, 2));
-		board[2][2] = new Cheetah(2, new Coordinate(2, 2),500);
+		board[2][2] = new Cheetah(2, new Coordinate(2, 2), 500);
 		board[3][2] = new Glass(new Coordinate(3, 2));
-		board[4][2] = new Wolf(2, new Coordinate(4, 2),400);
+		board[4][2] = new Wolf(2, new Coordinate(4, 2), 400);
 		board[5][2] = new Glass(new Coordinate(5, 2));
-		board[6][2] = new Elephant(2, new Coordinate(6, 2),1000);
+		board[6][2] = new Elephant(2, new Coordinate(6, 2), 1000);
 
 		board[0][3] = new Glass(new Coordinate(0, 3));
 		board[1][3] = new Water(new Coordinate(1, 3));
@@ -390,31 +386,31 @@ public class GameController implements Initializable {
 		board[5][5] = new Water(new Coordinate(5, 5));
 		board[6][5] = new Glass(new Coordinate(6, 5));
 
-		board[0][6] = new Elephant(1, new Coordinate(0, 6),-1000);
+		board[0][6] = new Elephant(1, new Coordinate(0, 6), -1000);
 		board[1][6] = new Glass(new Coordinate(1, 6));
-		board[2][6] = new Wolf(1, new Coordinate(2, 6),-400);
+		board[2][6] = new Wolf(1, new Coordinate(2, 6), -400);
 		board[3][6] = new Glass(new Coordinate(3, 6));
-		board[4][6] = new Cheetah(1, new Coordinate(4, 6),-500);
+		board[4][6] = new Cheetah(1, new Coordinate(4, 6), -500);
 		board[5][6] = new Glass(new Coordinate(5, 6));
-		board[6][6] = new Mouse(1, new Coordinate(6, 6),-500);
+		board[6][6] = new Mouse(1, new Coordinate(6, 6), -500);
 
 		board[0][7] = new Glass(new Coordinate(0, 7));
-		board[1][7] = new Cat(1, new Coordinate(1, 7),-200);
+		board[1][7] = new Cat(1, new Coordinate(1, 7), -200);
 		board[2][7] = new Glass(new Coordinate(2, 7));
-		board[3][7] = new Trap(1, new Coordinate(3, 7),0);
+		board[3][7] = new Trap(1, new Coordinate(3, 7), 0);
 		board[4][7] = new Glass(new Coordinate(4, 7));
-		board[5][7] = new Dog(1, new Coordinate(5, 7),-300);
+		board[5][7] = new Dog(1, new Coordinate(5, 7), -300);
 		board[6][7] = new Glass(new Coordinate(6, 7));
 
-		board[0][8] = new Tiger(1, new Coordinate(0, 8),-800);
+		board[0][8] = new Tiger(1, new Coordinate(0, 8), -800);
 		board[1][8] = new Glass(new Coordinate(1, 8));
-		board[2][8] = new Trap(1, new Coordinate(2, 8),0);
-		board[3][8] = new Cave(1, new Coordinate(3, 8),0);
-		board[4][8] = new Trap(1, new Coordinate(4, 8),0);
+		board[2][8] = new Trap(1, new Coordinate(2, 8), 0);
+		board[3][8] = new Cave(1, new Coordinate(3, 8), 0);
+		board[4][8] = new Trap(1, new Coordinate(4, 8), 0);
 		board[5][8] = new Glass(new Coordinate(5, 8));
-		board[6][8] = new Lion(1, new Coordinate(6, 8),-900);
+		board[6][8] = new Lion(1, new Coordinate(6, 8), -900);
 	}
-	
+
 	@FXML
 	public void startGame(ActionEvent e) throws IOException {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -424,12 +420,12 @@ public class GameController implements Initializable {
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
-	
+
 	@FXML
 	public void returnToMainTemplate(ActionEvent e) {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("Template.fxml"));
+		loader.setLocation(getClass().getResource("Menu.fxml"));
 		Parent parent = null;
 		try {
 			parent = loader.load();
@@ -440,10 +436,11 @@ public class GameController implements Initializable {
 		scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 		stage.setScene(scene);
 	}
-	
+
 	@FXML
 	public void instruction(ActionEvent e) {
-		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		Stage stage = new Stage();
+		stage.setTitle("Instruction in game");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Instruction.fxml"));
 		Parent parent = null;
@@ -455,8 +452,9 @@ public class GameController implements Initializable {
 		Scene scene = new Scene(parent);
 		scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 		stage.setScene(scene);
+		stage.show();
 	}
-	
+
 	@FXML
 	public void surrender(ActionEvent e) {
 		Alert alert = new Alert(AlertType.WARNING);
@@ -468,7 +466,7 @@ public class GameController implements Initializable {
 		Node result = null;
 		ObservableList<Node> childrens = boardGame.getChildren();
 		for (Node node : childrens) {
-			if (boardGame.getRowIndex(node) == row && boardGame.getColumnIndex(node) == column) {
+			if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
 				result = node;
 				break;
 			}
@@ -502,9 +500,9 @@ public class GameController implements Initializable {
 			boardGame.getChildren().remove(listNode.get(i));
 		}
 	}
-	
+
 	public void khongBietDatTenTheNaoLuon() {
-		if(turn == 1) {
+		if (turn == 1) {
 			player.setStyle("-fx-opacity: 1.0");
 			AI.setStyle("-fx-opacity: 0.3");
 		} else {
@@ -513,24 +511,45 @@ public class GameController implements Initializable {
 		}
 	}
 	
+	public void setLevel(int level) {
+		GameController.level = level;
+		System.out.println("level selected: " + GameController.level);
+	}
+
 	public void endgame(int turn) {
+		Alert alert = new Alert(AlertType.INFORMATION, "Bạn có muốn chơi lại?", ButtonType.OK, ButtonType.CANCEL);
+		alert.setTitle("Kết thúc");
 		if (turn == 1) {
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle("Kết thúc");
 			alert.setHeaderText("YOU WIN !!!");
-			alert.setContentText("Bạn có muốn chơi lại ?");
-			
-			Optional<ButtonType> result = alert.showAndWait();
-			if(!result.isPresent()) {
-				
+		} else {
+			alert.setHeaderText("YOU LOSE !!!");
+		}
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			Stage stage = (Stage) ((Node) boardGame).getScene().getWindow();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Boardgame.fxml"));
+			Parent root;
+			try {
+				root = (Parent) loader.load();
+				GameController gameController = loader.getController();
+				stage.setScene(new Scene(root));
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			else if(result.get() == ButtonType.OK) {
-				
+			stage.show();
+		} else if (result.get() == ButtonType.CANCEL) {
+			Stage stage = (Stage) ((Node) boardGame).getScene().getWindow();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("Menu.fxml"));
+			Parent parent = null;
+			try {
+				parent = loader.load();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			else if(result.get() == ButtonType.CANCEL) {
-				
-			}
-			alert.showAndWait();
+			Scene scene = new Scene(parent);
+			stage.setScene(scene);
 		}
 	}
+
 }

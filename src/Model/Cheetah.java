@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 public class Cheetah extends Animal {
     public Cheetah(int color, Coordinate coordinate, int value) {
         super(color, 5, true, "Cheetah", coordinate, "src/image/bao" + color + ".jpg", value);

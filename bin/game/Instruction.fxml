@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.InstructionController">
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.InstructionController">
    <children>
-      <Button fx:id="backFromInstruction" layoutX="939.0" layoutY="724.0" mnemonicParsing="false" onAction="#backFromInstruction" text="Back" />
-      <TextArea layoutX="317.0" layoutY="165.0" prefHeight="459.0" prefWidth="609.0" text="Instruction" />
+      <AnchorPane id="coming_soon" layoutX="170.0" layoutY="274.0" prefHeight="741.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="75.0" />
+      <AnchorPane layoutX="23.0" layoutY="-77.0" prefHeight="90.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="33.0" layoutY="-67.0" prefHeight="90.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <Button fx:id="backFromInstruction" mnemonicParsing="false" onAction="#backFromInstruction" text="Back" AnchorPane.rightAnchor="30.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

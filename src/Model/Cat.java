@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 public class Cat extends Animal {
 
     public Cat(int color, Coordinate coordinate, int value) {
