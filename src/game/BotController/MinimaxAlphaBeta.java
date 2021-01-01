@@ -8,6 +8,7 @@ import Model.Animal;
 import Model.Cave;
 import Model.Coordinate;
 import Model.Piece;
+import Model.Trap;
 
 public class MinimaxAlphaBeta {
 	public static double count=0;
@@ -261,7 +262,25 @@ public double minimax(int depth, double alpha, double beta,  boolean isFindMax) 
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 9; j++) {
 				if(board[i][j] instanceof Animal) {
-					valueBoard += board[i][j].getValue() + ((Animal) board[i][j]).getPoValue();
+					if (board[i][j].getCoordinate().getTypeOfLand() instanceof Trap && board[i][j].getCoordinate().getTypeOfLand().getColor()!= board[i][j].getColor()) {
+						boolean danger = false;
+						List<Coordinate> possibleMoves = ((Animal) board[i][j]).getPossibleMove(board);
+						for (Coordinate co : possibleMoves) {
+							if (board[co.getX()][co.getY()] instanceof Animal
+									&& board[co.getX()][co.getY()].getColor() != board[i][j].getColor()) {
+								danger = true;
+								break;
+							}
+						}
+						if (!danger) {
+							if (board[i][j].getColor() == 1)
+								valueBoard += board[i][j].getValue() + ((Animal) board[i][j]).getPoValue() - 10000;
+							else 
+								valueBoard += board[i][j].getValue() + ((Animal) board[i][j]).getPoValue() + 10000;
+						}
+					} else {
+						valueBoard += board[i][j].getValue() + ((Animal) board[i][j]).getPoValue();
+					}
 
 				}
 			}
