@@ -71,8 +71,14 @@ public class MenuController implements Initializable {
 	@FXML
 	public void startGame(ActionEvent e) throws IOException {
 		Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Boardgame.fxml"));
-		Parent root = (Parent) loader.load();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("Boardgame.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		GameController gameController = loader.getController();
 		Button btn = (Button) e.getSource();
 		System.out.println(btn.getText());
